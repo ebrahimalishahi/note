@@ -45,7 +45,7 @@ export class NoteService {
       localStorage.setItem(this.localStorageKey, JSON.stringify(notes));
     }
   }
-  private genetateId(): number {
+  genetateId(): number {
     const notes: INote[] = JSON.parse(localStorage.getItem(this.localStorageKey) || '[]');
     const ids = notes.map(note => note.id);
     const maxId = Math.max(...ids);

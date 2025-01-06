@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { INote } from '../../models/note';
-import { NoteService } from '../../services/note.service';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+
+import { INote } from '../../models/note';
+import { NoteService } from '../../services/note.service';
 
 @Component({
   selector: 'app-home',
@@ -25,12 +26,5 @@ export class HomeComponent {
       return;
     }
   }
-  getBgColor(x:string):string{
-    console.log(x);
-    if(x){
-      return `background-color:${x}`
-    }else{
-      return `background-color:black`
-    }
-  }
+ 
 }
