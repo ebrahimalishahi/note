@@ -1,0 +1,27 @@
+
+<form (ngSubmit)="createNew()" class="max-w-sm mx-auto">
+    <div class="mb-5">
+        <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">title: </label>
+        <input type="text" id="title" [(ngModel)]="newNote.title" name="title"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            required />
+    </div>
+    <div class="mb-5">
+        <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">description:
+        </label>
+        <textarea id="description" [(ngModel)]="newNote.description" name="description"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            required></textarea>
+    </div>
+    <div class="mb-5">
+        <label for="color" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">color: </label>
+        <input type="text" id="color" [(ngModel)]="newNote.color" name="color"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            required />
+    </div>
+
+    <button type="submit"
+        class="btn-submit">create</button>
+    <button (click)="goBack()"
+        class="btn-default">go back</button>
+</form>

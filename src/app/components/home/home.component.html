@@ -1,0 +1,25 @@
+<div class="container p-2">
+    <div class="flex justify-between mb-3">
+        <h2 class="font-bold">Note</h2>
+        <button class="bg-slate-500 rounded-lg text-white p-2" routerLink="create">create new note</button>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+        @for (note of note; track $index) {
+            <div class="rounded-xl text-white shadow" [style]="getBgColor(note.color)">
+                <div>
+                    <h5 class="p-1 font-bold">title:{{note.title}}</h5>
+                    <div class="p-2">
+                        <p>discription: {{note.description}}</p>
+                        <p class="mb-4">created on: {{note.date}}</p>
+                        <button class="bg-slate-500 rounded-lg p-1" [routerLink]="'edit/'+note.id">Edit</button>
+                        <a class="bg-slate-500 rounded-lg p-1 ml-1" (click)="deletNote(note.id)"><button>Delete</button></a>
+                    </div>
+                </div>
+            </div>
+            }@empty {
+            <div>
+                you didt have any note.
+            </div>
+            }
+    </div>
+</div>
