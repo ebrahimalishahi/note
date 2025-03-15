@@ -1,26 +1,41 @@
-
-<form (ngSubmit)="submit()" class="max-w-sm mx-auto">
-    <div class="mb-5">
-        <label for="title" class="block mb-2 text-sm font-medium text-gray-900">title: </label>
-        <input type="text" id="title" [(ngModel)]="note.title" name="title"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            required />
+<mat-toolbar class="flex justify-between w-full">
+    <div class="flex items-center gap-1">
+        <mat-icon>chat</mat-icon>
+        <span>My Notes</span>
     </div>
-    <div class="mb-5">
-        <label for="description" class="block mb-2 text-sm font-medium text-gray-900 ">description:
-        </label>
-        <textarea id="description" [(ngModel)]="note.description" name="description"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            required></textarea>
-    </div>
-    <div class="mb-5">
-        <label for="color" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">color: </label>
-        <input type="color" id="color" [(ngModel)]="note.color" name="color"
-            required />
+    <div class="flex gap-3">
+        <button [routerLink]="['/']" mat-icon-button aria-label="Dashboard" color="accent">
+            <mat-icon>notes</mat-icon>
+        </button>
+        <button [routerLink]="['/hh']" routerLinkActive="router-link-active" mat-icon-button aria-label="Dashboard"
+            color="accent">
+            <mat-icon>insert_chart</mat-icon>
+        </button>
     </div>
 
-    <button type="submit"
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">{{noteId? "Update":"Create"}}</button>
-    <button (click)="goback()"
-        class=" ml-1 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">go back</button>
-</form>
+</mat-toolbar>
+<div class="flex h-full">
+    <form [formGroup]="form" (ngSubmit)="submit()"
+        class="flex flex-col basis-full md:basis-7/12 lg:basis-5/12 m-auto gap-3 p-5">
+        <mat-form-field class="w-full">
+            <mat-label>title</mat-label>
+            <input matInput formControlName="title" #title [maxlength]="titleMaxLength" placeholder="Enter Title...">
+            <mat-hint align="end">{{title.value.length}} / {{titleMaxLength}}</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" [maxlength]="descriptionMaxLength" #description
+                placeholder="Enter description..."></textarea>
+            <mat-hint align="end">{{description.value.length}} / {{descriptionMaxLength}}</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="w-20">
+            <mat-label>color</mat-label>
+            <input matInput formControlName="color" type="color">
+        </mat-form-field>
+
+        <button type="submit" mat-flat-button color="primary">{{noteId?"Update":"Create"}}</button>
+        <button type="button" (click)="goback()" mat-stroked-button color="primary">Go Back</button>
+    </form>
+</div>

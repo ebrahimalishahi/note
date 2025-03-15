@@ -38,6 +38,7 @@ export class NoteService {
     return undefined
   }
   delete(id: number): void {
+  
     let notes: INote[] = JSON.parse(localStorage.getItem(this.localStorageKey) || '[]');
     const index = notes.findIndex(n => n.id === id);
     if (index !== -1) {
@@ -49,6 +50,6 @@ export class NoteService {
     const notes: INote[] = JSON.parse(localStorage.getItem(this.localStorageKey) || '[]');
     const ids = notes.map(note => note.id);
     const maxId = Math.max(...ids);
-    return maxId >= 0 ? maxId + 1 : 0
+    return maxId >= 0 ? maxId + 1 : 1;
   }
 }

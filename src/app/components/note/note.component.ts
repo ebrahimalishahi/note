@@ -1,29 +1,44 @@
-import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 
 import { NoteService } from '../../services/note.service';
 import { INote } from '../../models/note';
+import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-note',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, SharedModule, ReactiveFormsModule],
   templateUrl: './note.component.html',
   styleUrl: './note.component.scss'
 })
 export class NoteComponent {
+  form!: FormGroup;
   noteId: number | any;
-  note!: INote;
-  constructor(private noteSerice: NoteService, private activatedRoute: ActivatedRoute, private router: Router) { }
+  // note!: INote;
+  titleMaxLength = 256;
+  descriptionMaxLength = 400;
+  constructor(
+    private noteSerice: NoteService,
+    private activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private router: Router) {
+    this.form = formBuilder.group({
+      id: this.formBuilder.control(this.noteSerice.genetateId(), { nonNullable: true }),
+      date:this.formBuilder.control( new Date(), { nonNullable: true }),
+      title: [null, Validators.required],
+      description: [null],
+      color:this.formBuilder.control('#000000', { nonNullable: true })
+    })
+  }
   ngOnInit(): void {
-    this.initNote();
     this.activatedRoute.params.subscribe(params => {
       this.noteId = params['id'];
 
       if (this.noteId) {
-        this.note = this.noteSerice.get(this.noteId);
+        this.form.patchValue(this.noteSerice.get(this.noteId));
       }
     })
   }
@@ -37,26 +52,17 @@ export class NoteComponent {
   }
 
   update(): void {
-    this.noteSerice.update(this.note);
+    this.noteSerice.update(this.form.value);
     alert('record has been updated!')
     this.goback();
   }
 
   create(): void {
-    this.noteSerice.create(this.note);
+    this.noteSerice.create(this.form.value);
     alert('create new note successfull !');
-    this.initNote();
+    this.form.reset();
   }
 
-  initNote(): void {
-    this.note = {
-      id: this.noteSerice.genetateId(),
-      title: '',
-      description: '',
-      date: new Date(),
-      color: '#000000',
-    }
-  }
   goback(): void {
     this.router.navigate(['']);
   }
