@@ -109,7 +109,7 @@ export class NoteComponent {
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    if (value) {
+    if (value && this.allTags.find(tag => tag == value)) {
       this.tags.push(value);
     }
 

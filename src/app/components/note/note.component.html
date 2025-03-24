@@ -45,7 +45,7 @@
             <input placeholder="New Tag..." #tagInput [formControl]="tagCtrl" [matChipInputFor]="chipGrid"
                 [matAutocomplete]="auto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                 (matChipInputTokenEnd)="add($event)" />
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)" []>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
                 @for (tag of filteredTags | async; track tag) {
                 <mat-option [value]="tag">{{tag}}</mat-option>
                 }
