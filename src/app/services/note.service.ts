@@ -5,7 +5,17 @@ import { INote } from '../models/note';
   providedIn: 'root'
 })
 export class NoteService {
-  private localStorageKey = 'notes_with_testycodes'
+  tags = [
+    'Work',
+    'Goals',
+    'Fitness',
+    'Personal',
+    'Ideas',
+    'Shopping',
+    'Travel',
+    'Study'
+  ]
+  private localStorageKey = 'note_notes'
   constructor() { }
   getAll(): INote[] {
     const notesJson = localStorage.getItem(this.localStorageKey);
@@ -14,9 +24,6 @@ export class NoteService {
   get(id: number): INote | any {
     const notesJson = localStorage.getItem(this.localStorageKey);
     const notes: INote[] = notesJson ? JSON.parse(notesJson) : [];
-    console.log(id);
-    console.log(notes);
-    console.log(notes.find((n) => n.id == id));
     return notes.find((n) => n.id == id);
   }
   create(note: INote): INote {
@@ -30,7 +37,6 @@ export class NoteService {
     let notes: INote[] = JSON.parse(localStorage.getItem(this.localStorageKey) || '[]');
     const index = notes.findIndex(n => n.id == note.id);
     if (index !== -1) {
-      console.log('testcodes');
       notes[index] = note;
       localStorage.setItem(this.localStorageKey, JSON.stringify(notes));
       return note;
@@ -38,7 +44,7 @@ export class NoteService {
     return undefined
   }
   delete(id: number): void {
-  
+
     let notes: INote[] = JSON.parse(localStorage.getItem(this.localStorageKey) || '[]');
     const index = notes.findIndex(n => n.id === id);
     if (index !== -1) {
@@ -51,5 +57,13 @@ export class NoteService {
     const ids = notes.map(note => note.id);
     const maxId = Math.max(...ids);
     return maxId >= 0 ? maxId + 1 : 1;
+  }
+  search(searchTerms: string, tags: string[]): INote[] {
+    const notes: INote[] = JSON.parse(localStorage.getItem(this.localStorageKey) || '[]');
+    return notes.filter(note =>
+      (note.title.toLowerCase().includes(searchTerms) ||
+        (note.description && note.description.toLowerCase().includes(searchTerms))) &&
+      (tags.length === 0 || (note.tags && tags.every(tag => note.tags.includes(tag))))
+    );
   }
 }

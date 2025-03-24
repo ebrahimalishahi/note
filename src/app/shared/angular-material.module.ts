@@ -9,7 +9,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatChipsModule } from '@angular/material/chips';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {MatSelectModule} from '@angular/material/select';
+
 
 
 const MADULE = [
@@ -23,7 +26,9 @@ const MADULE = [
   MatChipsModule,
   MatFormFieldModule,
   MatLabel,
-  MatDialogModule
+  MatDialogModule,
+  MatAutocompleteModule,
+  MatSelectModule
 ]
 
 @NgModule({

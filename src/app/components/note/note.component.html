@@ -1,13 +1,13 @@
 <mat-toolbar class="flex justify-between w-full">
     <div class="flex items-center gap-1">
-        <mat-icon>chat</mat-icon>
+        <mat-icon>speaker_notes</mat-icon>
         <span>My Notes</span>
     </div>
     <div class="flex gap-3">
-        <button [routerLink]="['/']" mat-icon-button aria-label="Dashboard" color="accent">
+        <button [routerLink]="['/']" mat-icon-button aria-label="Notes" color="accent">
             <mat-icon>notes</mat-icon>
         </button>
-        <button [routerLink]="['/hh']" routerLinkActive="router-link-active" mat-icon-button aria-label="Dashboard"
+        <button [routerLink]="['/dashboard']" routerLinkActive="router-link-active" mat-icon-button aria-label="Dashboard"
             color="accent">
             <mat-icon>insert_chart</mat-icon>
         </button>
@@ -16,7 +16,7 @@
 </mat-toolbar>
 <div class="flex h-full">
     <form [formGroup]="form" (ngSubmit)="submit()"
-        class="flex flex-col basis-full md:basis-7/12 lg:basis-5/12 m-auto gap-3 p-5">
+        class="flex flex-col basis-full md:basis-7/12 lg:basis-4/12 m-auto gap-3 p-5">
         <mat-form-field class="w-full">
             <mat-label>title</mat-label>
             <input matInput formControlName="title" #title [maxlength]="titleMaxLength" placeholder="Enter Title...">
@@ -28,6 +28,28 @@
             <textarea matInput formControlName="description" [maxlength]="descriptionMaxLength" #description
                 placeholder="Enter description..."></textarea>
             <mat-hint align="end">{{description.value.length}} / {{descriptionMaxLength}}</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="example-chip-list">
+            <mat-label>Tags</mat-label>
+            <mat-chip-grid #chipGrid aria-label="Tag selection">
+                @for (tag of tags.value; track tag) {
+                <mat-chip-row (removed)="remove(tag)">
+                    {{tag}}
+                    <button matChipRemove [attr.aria-label]="'remove ' + tag">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </mat-chip-row>
+                }
+            </mat-chip-grid>
+            <input placeholder="New Tag..." #tagInput [formControl]="tagCtrl" [matChipInputFor]="chipGrid"
+                [matAutocomplete]="auto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)" />
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)" []>
+                @for (tag of filteredTags | async; track tag) {
+                <mat-option [value]="tag">{{tag}}</mat-option>
+                }
+            </mat-autocomplete>
         </mat-form-field>
 
         <mat-form-field class="w-20">

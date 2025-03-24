@@ -1,0 +1,54 @@
+<div class="container p-2">
+    <div class="flex flex-col md:flex-row gap-x-3 items-start md:items-center">
+        <mat-form-field>
+            <mat-label>Search</mat-label>
+            <input type="text" [(ngModel)]="searchTerms" matInput (input)="search()">
+            <mat-icon class="cursor-pointer" matSuffix (click)="search()">search</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>tags</mat-label>
+            <mat-select [(ngModel)]="tags" multiple (ngModelChange)="search()">
+                <mat-select-trigger>
+                    {{tags[0] || ''}}
+                    @if ((tags.length || 0) > 1) {
+                    <span class="example-additional-selection">
+                        (+{{(tags.length || 0) - 1}} {{tags.length === 2 ? 'other' : 'others'}})
+                    </span>
+                    }
+                </mat-select-trigger>
+                @for (topping of allTags; track topping) {
+                <mat-option [value]="topping">{{topping}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+        @for (note of filteredNotes; track $index) {
+        <mat-card class=" text-white" appearance="outlined" [style.background-color]="note.color">
+            <mat-card-header>
+                <mat-card-title>{{note.title}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="flex flex-col gap-2">
+                    <p>discription: {{note.description}}</p>
+                    <div class="flex gap-1">
+                        @for (tag of note.tags; track tag) {
+                        <mat-chip [disableRipple]="true">{{tag}}</mat-chip>
+                        }
+                    </div>
+                    <p class="mb-4">Last update: {{note.date | date:'fullDate'}}</p>
+                </div>
+            </mat-card-content>
+            <mat-card-actions>
+                <button [routerLink]="'edit/'+note.id" mat-icon-button><mat-icon>edit</mat-icon></button>
+                <button (click)="deletNote(note)" mat-icon-button><mat-icon>delete</mat-icon></button>
+            </mat-card-actions>
+        </mat-card>
+        }@empty {
+        <div>
+            you didt have any note.
+        </div>
+        }
+    </div>
+</div>
