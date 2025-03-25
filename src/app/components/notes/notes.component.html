@@ -1,12 +1,22 @@
 <div class="container p-2 flex flex-col">
     <div class="flex flex-col md:flex-row gap-x-3 items-start md:items-center">
-        <mat-form-field>
+        <mat-form-field class="w-full md:w-auto">
             <mat-label>Search</mat-label>
             <input type="text" [(ngModel)]="searchTerms" matInput (input)="search()">
             <mat-icon class="cursor-pointer" matSuffix (click)="search()">search</mat-icon>
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field class="w-full md:w-auto">
+            <mat-label>Group</mat-label>
+            <mat-select [(ngModel)]="group" (ngModelChange)="search()">
+                <mat-option>--</mat-option>
+                @for (group of groups; track group) {
+                <mat-option [value]="group.title">{{group.title}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="w-full md:w-auto">
             <mat-label>tags</mat-label>
             <mat-select [(ngModel)]="tags" multiple (ngModelChange)="search()">
                 <mat-select-trigger>
@@ -25,7 +35,8 @@
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2" [class.h-full]="!filteredNotes.length">
         @for (note of filteredNotes; track $index) {
-        <mat-card class=" text-white" appearance="outlined" [style.background-color]="note.color">
+        <mat-card class=" text-white relative" appearance="outlined" [style.background-color]="note.color">
+            <mat-icon *ngIf="note.group" class="group-icon" [fontIcon]="note.group.icon"></mat-icon>
             <mat-card-header>
                 <mat-card-title>{{note.title}}</mat-card-title>
             </mat-card-header>
@@ -48,7 +59,7 @@
         }@empty {
         <div class="col-span-full row-span-full justify-center items-center flex flex-col gap-3">
             <img src="assets/images/empty.svg" width="200" alt="Empty">
-           <span>You don't have any notes.</span> 
+            <span>You don't have any notes.</span>
         </div>
         }
     </div>

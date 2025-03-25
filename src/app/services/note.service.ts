@@ -15,6 +15,16 @@ export class NoteService {
     'Travel',
     'Study'
   ]
+
+  groups = [
+    { title: 'Financial', icon: 'attach_money' },
+    { title: 'Academic', icon: 'school' },
+    { title: 'Personal', icon: 'person' },
+    { title: 'Health', icon: 'healing' },
+    { title: 'Travel', icon: 'airplanemode_active' },
+    { title: 'Hobbies', icon: 'music_note' },
+    { title: 'Groceries', icon: 'local_grocery_store' }
+  ]
   private localStorageKey = 'note_notes'
   constructor() { }
   getAll(): INote[] {
@@ -58,11 +68,12 @@ export class NoteService {
     const maxId = Math.max(...ids);
     return maxId >= 0 ? maxId + 1 : 1;
   }
-  search(searchTerms: string, tags: string[]): INote[] {
+  search(searchTerms: string, group: string, tags: string[]): INote[] {
     const notes: INote[] = JSON.parse(localStorage.getItem(this.localStorageKey) || '[]');
     return notes.filter(note =>
       (note.title.toLowerCase().includes(searchTerms) ||
         (note.description && note.description.toLowerCase().includes(searchTerms))) &&
+      (note.group && note.group.title == group) &&
       (tags.length === 0 || (note.tags && tags.every(tag => note.tags.includes(tag))))
     );
   }

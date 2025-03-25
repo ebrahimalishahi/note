@@ -4,11 +4,12 @@ import { NoteService } from '../../services/note.service';
 import { BaseChartDirective } from 'ng2-charts';
 import { SharedModule } from '../../shared/shared.module';
 import { RouterModule } from '@angular/router';
+import { GroupChartComponent } from "./group-chart/group-chart.component";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [BaseChartDirective, SharedModule, RouterModule],
+  imports: [BaseChartDirective, SharedModule, RouterModule, GroupChartComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -26,13 +26,14 @@ export class NoteComponent {
   get color() {
     return this.form.get('color');
   }
+  groups = this.noteService.groups;
   isPickerOpen: boolean = false;
   form!: FormGroup;
   noteId: number | any;
   titleMaxLength = 256;
   descriptionMaxLength = 400;
-  presetColors: string[] = ['#1F2937', '#2E2E2E', '#374151', '#4A4A4A', '#6B7280', '#3B0764', '#4C1D95', '#6D28D9', '#5B21B6', '#4338CA', '#1E3A8A', '#1D4ED8', '#2563EB', '#0D9488', '#047857', '#065F46', '#15803D', '#166534', '#4B5E40', '#854D0E', '#7C2D12', '#B45309', '#B91C1C', '#BE123C'];  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  allTags: string[] = this.noteSerice.tags;
+  presetColors: string[] = ['#1F2937', '#2E2E2E', '#374151', '#4A4A4A', '#6B7280', '#3B0764', '#4C1D95', '#6D28D9', '#5B21B6', '#4338CA', '#1E3A8A', '#1D4ED8', '#2563EB', '#0D9488', '#047857', '#065F46', '#15803D', '#166534', '#4B5E40', '#854D0E', '#7C2D12', '#B45309', '#B91C1C', '#BE123C']; readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  allTags: string[] = this.noteService.tags;
   readonly currentFruit = model('');
   readonly announcer = inject(LiveAnnouncer);
   tagCtrl = new FormControl('');
@@ -45,7 +46,7 @@ export class NoteComponent {
   @ViewChild('tagInput') tagInput!: ElementRef<HTMLInputElement>;
 
   constructor(
-    private noteSerice: NoteService,
+    private noteService: NoteService,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private snackbarService: SnackbarService,
@@ -62,7 +63,7 @@ export class NoteComponent {
       this.noteId = params['id'];
 
       if (this.noteId) {
-        const notes: INote = this.noteSerice.get(this.noteId);
+        const notes: INote = this.noteService.get(this.noteId);
         this.form.patchValue(notes);
 
         notes.tags.forEach(val => {
@@ -98,14 +99,14 @@ export class NoteComponent {
   }
 
   update(): void {
-    this.noteSerice.update(this.form.value);
+    this.noteService.update(this.form.value);
     this.snackbarService.showMessage('Note has been updated!');
 
     this.goback();
   }
 
   create(): void {
-    this.noteSerice.create(this.form.value);
+    this.noteService.create(this.form.value);
     this.snackbarService.showMessage('Create new note successfull!');
     this.form.reset();
   }
@@ -147,10 +148,11 @@ export class NoteComponent {
 
   private createForm(): void {
     this.form = this.formBuilder.group({
-      id: this.formBuilder.control(this.noteSerice.genetateId(), { nonNullable: true }),
+      id: this.formBuilder.control(this.noteService.genetateId(), { nonNullable: true }),
       date: this.formBuilder.control(new Date(), { nonNullable: true }),
       title: [null, Validators.required],
       description: [null],
+      group: [null],
       color: this.formBuilder.control('#3f51b5', { nonNullable: true }),
       tags: this.formBuilder.array([])
     })

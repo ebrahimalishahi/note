@@ -5,4 +5,5 @@ export interface INote {
     date: Date;
     color: string;
     tags: string[];
+    group: { title: string, icon: string };
 }

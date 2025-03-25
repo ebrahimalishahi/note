@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  flex-grow: 1;
+}
+
+.group-icon {
+  position: absolute;
+  font-size: 140px;
+  height: 140px;
+  width: 140px;
+  right: 0.5rem;
+  opacity: 0.1;
+  top: 1rem;
+}

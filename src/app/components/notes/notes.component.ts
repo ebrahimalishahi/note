@@ -15,14 +15,16 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, RouterModule, RouterLink, SharedModule, FormsModule],
   templateUrl: './notes.component.html',
-  styleUrl: './notes.component.css'
+  styleUrl: './notes.component.scss'
 })
 export class NotesComponent {
+  groups = this.noteService.groups;
   note: INote[] = [];
   filteredNotes: INote[] = [];
   searchTerms: string = '';
   allTags: string[] = this.noteService.tags;
   tags: string[] = [];
+  group!: string;
   constructor(
     private noteService: NoteService,
     private activatedRoute: ActivatedRoute,
@@ -33,8 +35,8 @@ export class NotesComponent {
     this.filteredNotes = this.note;
   };
   search(): void {
-    if (this.searchTerms.trim() || this.tags.length) {
-      this.filteredNotes = this.noteService.search(this.searchTerms.toLowerCase(), this.tags);
+    if (this.searchTerms.trim() || this.tags.length || this.group) {
+      this.filteredNotes = this.noteService.search(this.searchTerms.toLowerCase(), this.group, this.tags);
       return;
     }
 

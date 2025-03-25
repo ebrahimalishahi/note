@@ -31,6 +31,16 @@
             <mat-hint align="end">{{description.value.length}} / {{descriptionMaxLength}}</mat-hint>
         </mat-form-field>
 
+        <mat-form-field>
+            <mat-label>Group</mat-label>
+            <mat-select formControlName="group">
+                <mat-option>--</mat-option>
+                @for (group of groups; track group) {
+                <mat-option [value]="group">{{group.title}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
         <mat-form-field class="example-chip-list">
             <mat-label>Tags</mat-label>
             <mat-chip-grid #chipGrid aria-label="Tag selection">
