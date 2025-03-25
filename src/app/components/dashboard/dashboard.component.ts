@@ -34,7 +34,13 @@ export class DashboardComponent implements AfterViewInit {
   public barChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     scales: {
-      y: { beginAtZero: true }
+      y: {
+        beginAtZero: true,
+        ticks: {
+          stepSize: 1,
+          precision: 0
+        }
+      }
     }
   };
 

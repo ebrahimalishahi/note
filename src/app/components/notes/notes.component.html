@@ -1,4 +1,4 @@
-<div class="container p-2">
+<div class="container p-2 flex flex-col">
     <div class="flex flex-col md:flex-row gap-x-3 items-start md:items-center">
         <mat-form-field>
             <mat-label>Search</mat-label>
@@ -23,7 +23,7 @@
             </mat-select>
         </mat-form-field>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2" [class.h-full]="!filteredNotes.length">
         @for (note of filteredNotes; track $index) {
         <mat-card class=" text-white" appearance="outlined" [style.background-color]="note.color">
             <mat-card-header>
@@ -46,8 +46,9 @@
             </mat-card-actions>
         </mat-card>
         }@empty {
-        <div>
-            you didt have any note.
+        <div class="col-span-full row-span-full justify-center items-center flex flex-col gap-3">
+            <img src="assets/images/empty.svg" width="200" alt="Empty">
+           <span>You don't have any notes.</span> 
         </div>
         }
     </div>

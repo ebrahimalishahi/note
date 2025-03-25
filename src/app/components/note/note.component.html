@@ -26,7 +26,8 @@
         <mat-form-field class="w-full">
             <mat-label>Description</mat-label>
             <textarea matInput formControlName="description" [maxlength]="descriptionMaxLength" #description
-                placeholder="Enter description..."></textarea>
+                placeholder="Enter description..." cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
             <mat-hint align="end">{{description.value.length}} / {{descriptionMaxLength}}</mat-hint>
         </mat-form-field>
 
