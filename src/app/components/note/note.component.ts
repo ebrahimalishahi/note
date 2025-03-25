@@ -1,33 +1,37 @@
-import { Component, computed, ElementRef, inject, model, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, model, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { map, Observable, startWith } from 'rxjs';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 import { NoteService } from '../../services/note.service';
 import { SharedModule } from '../../shared/shared.module';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { map, Observable, startWith } from 'rxjs';
 import { INote } from '../../models/note';
 import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-note',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, SharedModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, SharedModule, ReactiveFormsModule, ColorPickerModule],
   templateUrl: './note.component.html',
   styleUrl: './note.component.scss'
 })
 export class NoteComponent {
+  get color() {
+    return this.form.get('color');
+  }
+  isPickerOpen: boolean = false;
   form!: FormGroup;
   noteId: number | any;
-  // note!: INote;
   titleMaxLength = 256;
   descriptionMaxLength = 400;
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  presetColors: string[] = ['#1F2937', '#2E2E2E', '#374151', '#4A4A4A', '#6B7280', '#3B0764', '#4C1D95', '#6D28D9', '#5B21B6', '#4338CA', '#1E3A8A', '#1D4ED8', '#2563EB', '#0D9488', '#047857', '#065F46', '#15803D', '#166534', '#4B5E40', '#854D0E', '#7C2D12', '#B45309', '#B91C1C', '#BE123C'];  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   allTags: string[] = this.noteSerice.tags;
   readonly currentFruit = model('');
   readonly announcer = inject(LiveAnnouncer);
@@ -68,7 +72,10 @@ export class NoteComponent {
     })
   }
 
-
+  onColorChange(color: string) {
+    this.form.patchValue({ color });
+    this.isPickerOpen = false;
+  }
   addTag(tag: string): void {
     this.tags.push(this.formBuilder.control(tag));
   }

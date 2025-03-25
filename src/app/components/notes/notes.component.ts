@@ -2,12 +2,13 @@ import { Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
+import { filter } from 'rxjs';
+
 import { INote } from '../../models/note';
 import { NoteService } from '../../services/note.service';
 import { SharedModule } from '../../shared/shared.module';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { filter } from 'rxjs';
-import { FormControl, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-notes',

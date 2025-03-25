@@ -7,8 +7,8 @@
         <button [routerLink]="['/']" mat-icon-button aria-label="Notes" color="accent">
             <mat-icon>notes</mat-icon>
         </button>
-        <button [routerLink]="['/dashboard']" routerLinkActive="router-link-active" mat-icon-button aria-label="Dashboard"
-            color="accent">
+        <button [routerLink]="['/dashboard']" routerLinkActive="router-link-active" mat-icon-button
+            aria-label="Dashboard" color="accent">
             <mat-icon>insert_chart</mat-icon>
         </button>
     </div>
@@ -53,9 +53,14 @@
             </mat-autocomplete>
         </mat-form-field>
 
-        <mat-form-field class="w-20">
+        <mat-form-field class="color-field w-28">
             <mat-label>color</mat-label>
-            <input matInput formControlName="color" type="color">
+            <input matInput readonly="true" [colorPicker]="color?.value" formControlName="color"
+                [cpToggle]="isPickerOpen" (click)="isPickerOpen = true" [cpPresetColors]="presetColors"
+                [cpCancelButton]="true" (colorPickerChange)="onColorChange($event)"
+                [cpCancelButtonClass]="'mdc-button mdc-button--outlined mat-mdc-outlined-button mat-primary mat-mdc-button-base'"
+                [style.background]="color?.value" [cpAlphaChannel]="'disabled'" [cpPosition]="'bottom'"
+                [cpDisableInput]="true" [cpColorMode]="'presets'">
         </mat-form-field>
 
         <button type="submit" mat-flat-button color="primary">{{noteId?"Update":"Create"}}</button>

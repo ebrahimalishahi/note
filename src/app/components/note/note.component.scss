@@ -1,5 +1,17 @@
-:host{
+:host {
     display: flex;
     flex-direction: column;
     height: 100vh;
+}
+
+.color-field {
+    position: relative;
+    z-index: 9;
+
+    input {
+        color: #ffffff;
+        padding: 0 2px;
+        text-align: center;
+
+    }
 }
