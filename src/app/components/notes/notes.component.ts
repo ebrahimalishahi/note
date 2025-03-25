@@ -24,7 +24,7 @@ export class NotesComponent {
   searchTerms: string = '';
   allTags: string[] = this.noteService.tags;
   tags: string[] = [];
-  group!: string;
+  group: string = '';
   constructor(
     private noteService: NoteService,
     private activatedRoute: ActivatedRoute,

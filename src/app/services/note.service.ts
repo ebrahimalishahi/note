@@ -73,7 +73,7 @@ export class NoteService {
     return notes.filter(note =>
       (note.title.toLowerCase().includes(searchTerms) ||
         (note.description && note.description.toLowerCase().includes(searchTerms))) &&
-      (note.group && note.group.title == group) &&
+      (!group || (note.group && note.group?.title == group)) &&
       (tags.length === 0 || (note.tags && tags.every(tag => note.tags.includes(tag))))
     );
   }
