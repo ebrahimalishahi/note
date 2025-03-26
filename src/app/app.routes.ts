@@ -8,5 +8,5 @@ export const routes: Routes = [
     {path:'edit/:id',component:NoteComponent},
     {path:'create',component:NoteComponent},
     {path:'dashboard',component:DashboardComponent},
-    {path:'**',component:HomeComponent},
+    {path:'**',redirectTo:''},
 ];
